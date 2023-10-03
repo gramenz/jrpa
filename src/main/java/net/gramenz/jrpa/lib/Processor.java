@@ -1,13 +1,24 @@
 package net.gramenz.jrpa.lib;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Processor {
-    @Scheduled(fixedRateString = "${processor.iteration.duration}") // Führt die Methode alle 1 Sekunden aus
+    private final Config config;
+
+    @Autowired
+    public Processor(Config config) {
+        this.config = config;
+    }
+
+    @Scheduled(fixedRateString = "#{config.getProcessorIterationDuration}")
     public void run() {
-        // Hier können Sie Ihre Daemon-Logik implementieren
+
+        System.out.println("CONFIG\n  DEBUG: " + this.config.isDebug() + 
+                           "\n  ITERATION: " + this.config.getProcessorIterationDuration() + 
+                           "\n  WS SERVER PORT: " + this.config.getWsServerPort());
         System.out.println("Processor.run...");
     }
 }

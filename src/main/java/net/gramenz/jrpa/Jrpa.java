@@ -1,11 +1,17 @@
 package net.gramenz.jrpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 // ########## App
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import net.gramenz.jrpa.lib.Config;
 
 // ########## Websocket
+/*
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -16,15 +22,19 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
-
+*/
 
 @SpringBootApplication
 @EnableScheduling
 // ########## Websocket
+/*
 @Configuration
 @EnableWebSocket
 @EnableWebSocketMessageBroker
-public class Jrpa implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer {
+*/
+public class Jrpa /*implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer*/ {
+  @Autowired
+  private Config config;
 
 	// ########## App
 
@@ -34,13 +44,9 @@ public class Jrpa implements WebSocketConfigurer, WebSocketMessageBrokerConfigur
 
 	// ########## Websocket
 
-	// Client-Zugriff: z.B., ws://localhost:8080/websocket/topic/greeting
+	// Client-Zugriff: z.B., ws://localhost:8081/websocket/topic/greeting
 
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-			// Registrieren Sie Ihre WebSocket-Handler hier
-	}
-
+	/*
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 			config.enableSimpleBroker("/topic");
@@ -54,6 +60,9 @@ public class Jrpa implements WebSocketConfigurer, WebSocketMessageBrokerConfigur
 
 	@Bean
 	public ServerEndpointExporter serverEndpointExporter() {
+		int webSocketPort = config.getWsServerPort();
+		System.out.println("--------" + webSocketPort + "  - " + config.getWsServerPort());
 			return new ServerEndpointExporter();
 	}
+	*/
 }

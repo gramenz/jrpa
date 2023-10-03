@@ -8,7 +8,7 @@ import net.gramenz.jrpa.lib.ws.Greeting;
 import net.gramenz.jrpa.lib.ws.HelloMessage;
 
 @Controller
-public class WebSocket {
+public class WebSocketController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
