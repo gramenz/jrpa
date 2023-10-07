@@ -3,10 +3,18 @@ package net.gramenz.jrpa.lib;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Storage {
-    private final Config config;
+	@Autowired
+	protected AppConfig _appConfig;
 
-    @Autowired
-    public Storage(Config config) {
-        this.config = config;
-    }
+	@Autowired
+	protected Console _console;
+
+  public AppConfig getAppConfig() {
+	  return this._appConfig;
+  }
+
+  public Console getConsole() {
+	  return this._console;
+  }
+
 }

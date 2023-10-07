@@ -6,32 +6,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties
-public class Config {
+public class AppConfig {
   @Value("${server.port}")
-  private int serverPort;
-
-  @Value("${ws.server.port}")
-  private int wsServerPort;
+  protected int _serverPort;
 
   @Value("${debug}")
-  private boolean debug;
+  protected boolean _debug;
 
   @Value("${processor.iteration.duration}")
-  private int processorIterationDuration;
+  protected int _processorIterationDuration;
 
   public int getServerPort() {
-      return this.serverPort;
-  }
-
-  public int getWsServerPort() {
-      return this.wsServerPort;
+      return this._serverPort;
   }
 
   public boolean isDebug() {
-      return this.debug;
+      return this._debug;
   }
 
   public int getProcessorIterationDuration() {
-      return this.processorIterationDuration;
+      return this._processorIterationDuration;
   }
 }

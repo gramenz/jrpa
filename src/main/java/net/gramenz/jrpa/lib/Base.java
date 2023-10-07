@@ -1,6 +1,5 @@
 package net.gramenz.jrpa.lib;
 
-import net.gramenz.jrpa.lib.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
@@ -8,126 +7,146 @@ import java.util.Date;
 
 @Component
 public abstract class Base {
-    protected final Config config;
-    protected String type = this.getClass().getSimpleName(); // type = Klasse
-    protected long created = new Date().getTime(); // timestamp of instance creation (for deletion purposes etc.)
-    protected String id = UUID.randomUUID().toString(); // muss unique für jede Instanz sein, obwohl gleicher type sein kann
-    protected boolean active = true;
-    protected boolean running = false;
-    protected String name = "Base object";
-    protected String description = "";
-    protected String entityLog = this.type + "[" + this.id + "]"; // just for logging purposes, represents the actual unique instance despite multiple processor instances
-
     @Autowired
-    protected Console console;
+    protected Console _console;
+    
+    @Autowired
+    protected AppConfig _appConfig;
 
-    protected Storage storage;
+    //@Autowired
+    protected Storage _storage;
+
+    protected String _type = this.getClass().getSimpleName(); // type = Klasse
+    protected long _created = new Date().getTime(); // timestamp of instance creation (for deletion purposes etc.)
+    protected String _id = UUID.randomUUID().toString(); // muss unique für jede Instanz sein, obwohl gleicher type sein kann
+    protected boolean _active = true;
+    protected boolean _running = false;
+    protected String _name = "Base object";
+    protected String _description = "";
+    protected String _entityLog = this._type + "[" + this._id + "]"; // just for logging purposes, represents the actual unique instance despite multiple processor instances
 
     //protected Socket _socket; // TODO: ist das hier wirklich sinnvoll, vielleicht nur in TaskProcessor (aber Achtung: config)?
 
-    @Autowired
-    public Base(Config config, String id, String name, String description) {
-      this.config = config;
-
-        if (id != null && !id.isEmpty()) {
-            this.id = id;
+    public Base(String id, String name, String description) {
+        if (null != id && !id.isEmpty()) {
+            this._id = id;
         }
 
-        if (name != null && !name.isEmpty()) {
-            this.name = name;
+        if (null != name && !name.isEmpty()) {
+            this._name = name;
         }
 
-        if (description != null && !description.isEmpty()) {
-            this.description = description;
+        if (null != description && !description.isEmpty()) {
+            this._description = description;
         }
     }
 
-    public Config getConfig() {
-        return this.config;
+    public AppConfig getAppConfig() {
+        return this._appConfig;
+    }
+
+    public Console getConsole() {
+        return this._console;
     }
 
     public String getType() {
-        return this.type;
+        return this._type;
     }
 
     public long getCreated() {
-        return this.created;
+        return this._created;
     }
 
     // TODO: ist das hier wirklich sinnvoll, vieleicht nur in TaskProcessor (aber Achtung: config)?
     public String getEntityLog() {
-        return this.entityLog;
+        return this._entityLog;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        this._active = active;
     }
 
     public boolean isActive() {
-        return this.active;
+        return this._active;
     }
 
     public boolean isRunning() {
-        return this.running;
+        return this._running;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getId() {
-        return this.id;
+        return this._id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this._name = name;
     }
 
     public String getName() {
-        return this.name;
+        return this._name;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this._description = description;
     }
 
     public String getDescription() {
-        return this.description;
-    }
-
-    public Console getConsole() {
-        return this.console;
+        return this._description;
     }
 
     // TODO: ist das hier wirklich sinnvoll, vieleicht nur in TaskProcessor (aber Achtung: config)?
     public void setStorage(Storage storage) {
-        this.storage = storage;
+        this._storage = storage;
     }
 
     public Storage getStorage() {
-        return this.storage;
+        return this._storage;
     }
-
-    public abstract Object toStatus();
 
     protected void _debug(Object msg) {
-        new Console(this.getConfig().isDebug()).debug(this.getEntityLog() + ": " + Console.prepareString(msg));
+        this.getConsole().debug(this.getEntityLog() + ": " + this.getConsole().prepareString(msg));
+    }
+    
+    protected void _debug(String msg) {
+        this.getConsole().debug(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
     }
 
-    protected void _log(Object msg) {
-        new Console(this.getConfig().isDebug()).log(this.getEntityLog() + ": " + Console.prepareString(msg));
-    }
+      protected void _log(Object msg) {
+         this.getConsole().log(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
+    
+      protected void _log(String msg) {
+         this.getConsole().log(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
 
-    protected void _info(Object msg) {
-        new Console(this.getConfig().isDebug()).info(this.getEntityLog() + ": " + Console.prepareString(msg));
-    }
+      protected void _info(Object msg) {
+        this.getConsole().info(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
 
-    protected void _warn(Object msg) {
-        new Console(this.getConfig().isDebug()).warn(this.getEntityLog() + ": " + Console.prepareString(msg));
-    }
+      protected void _info(String msg) {
+        this.getConsole().info(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }      
+    
+      protected void _warn(Object msg) {
+        this.getConsole().warn(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
 
-    protected void _error(Object msg) {
-        new Console(this.getConfig().isDebug()).error(this.getEntityLog() + ": " + Console.prepareString(msg));
-    }
+      protected void _warn(String msg) {
+        this.getConsole().warn(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }      
+    
+      protected void _error(Object msg) {
+        this.getConsole().error(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
+
+      protected void _error(String msg) {
+        this.getConsole().error(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+      }
+
+    public abstract Object toStatus();
 }
 
