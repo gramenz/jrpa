@@ -14,14 +14,10 @@ public class Processor extends Base {
     @Scheduled(fixedRateString = "#{appConfig.getProcessorIterationDuration}")
     public void run() {
 
-        this._log("CONFIG: SERVER_PORT: " + this.getAppConfig().getServerPort() + ", DEBUG: " + this.getAppConfig().isDebug() + ",  ITERATION: " + this.getAppConfig().getProcessorIterationDuration());
-        this._debug("TEST");
-        this._log("TEST");                   
-        this._info("TEST");
-        this._warn("TEST");
-        this._error("TEST");
 
-        this._log("Processor.run...");
+
+
+        this._info("Processor.run (CONFIG: SERVER_PORT: " + this.getAppConfig().getServerPort() + ", DEBUG: " + this.getAppConfig().isDebug() + ",  ITERATION: " + this.getAppConfig().getProcessorIterationDuration());
     }
 
     public Object toStatus() {

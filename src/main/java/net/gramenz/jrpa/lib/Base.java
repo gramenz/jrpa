@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public abstract class Base {
-    @Autowired
-    protected Console _console;
-    
+    protected final Logger _logger = LoggerFactory.getLogger(Base.class);
+
     @Autowired
     protected AppConfig _appConfig;
 
@@ -45,8 +46,8 @@ public abstract class Base {
         return this._appConfig;
     }
 
-    public Console getConsole() {
-        return this._console;
+    public Logger getLogger() {
+        return this._logger;
     }
 
     public String getType() {
@@ -108,44 +109,44 @@ public abstract class Base {
     }
 
     protected void _debug(Object msg) {
-        this.getConsole().debug(this.getEntityLog() + ": " + this.getConsole().prepareString(msg));
+        this.getLogger().debug(this.getEntityLog() + ": " + this.prepareString(msg));
     }
     
     protected void _debug(String msg) {
-        this.getConsole().debug(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
+        this.getLogger().debug(this.getEntityLog() + ": "  + this.prepareString(msg));
     }
 
-      protected void _log(Object msg) {
-         this.getConsole().log(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
+    protected void _info(Object msg) {
+      this.getLogger().info(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }
+
+    protected void _info(String msg) {
+      this.getLogger().info(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }      
     
-      protected void _log(String msg) {
-         this.getConsole().log(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
+    protected void _warn(Object msg) {
+      this.getLogger().warn(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }
 
-      protected void _info(Object msg) {
-        this.getConsole().info(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
-
-      protected void _info(String msg) {
-        this.getConsole().info(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }      
+    protected void _warn(String msg) {
+      this.getLogger().warn(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }      
     
-      protected void _warn(Object msg) {
-        this.getConsole().warn(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
+    protected void _error(Object msg) {
+      this.getLogger().error(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }
 
-      protected void _warn(String msg) {
-        this.getConsole().warn(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }      
-    
-      protected void _error(Object msg) {
-        this.getConsole().error(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
+    protected void _error(String msg) {
+      this.getLogger().error(this.getEntityLog() + ": "  + this.prepareString(msg));
+    }
 
-      protected void _error(String msg) {
-        this.getConsole().error(this.getEntityLog() + ": "  + this.getConsole().prepareString(msg));
-      }
+    public String prepareString(String message) {
+        return (String) message;
+    }
+
+    public String prepareString(Object message) {
+        return message.toString();
+    }      
 
     public abstract Object toStatus();
 }
