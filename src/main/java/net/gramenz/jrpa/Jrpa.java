@@ -2,8 +2,6 @@ package net.gramenz.jrpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-
 import net.gramenz.jrpa.lib.Base;
 
 @SpringBootApplication
@@ -14,16 +12,16 @@ public class Jrpa extends Base {
 
     public static void main(String[] args) {
        Jrpa jrpa = new Jrpa();
-       jrpa._preInitialization();
+       jrpa._preInit();
        SpringApplication.run(Jrpa.class, args);
-       jrpa._postInitialization();
+       jrpa._postInit();
     }
 
-    protected void _preInitialization() {
+    protected void _preInit() {
         this.getLogger().info("Jrpa is starting...");
     }
 
-    protected void _postInitialization() {
+    protected void _postInit() {
     }    
 
     public Object toStatus() {
